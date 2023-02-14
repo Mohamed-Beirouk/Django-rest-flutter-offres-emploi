@@ -13,21 +13,26 @@ class UserAnnoncesCubit extends Cubit<UserAnnoncesStates> {
 
   void jobsUser() async {
     emit(UserAnnoncesLoadingState());
-    try {
-      networkService.jobs().then((response) {
-        if (response!.statusCode == 200) {
-          var getJobs = jsonDecode(response.body)['jobss'] as List;
-          var listJobs = getJobs.map((i) => Job.fromJason(i)).toList();
-          emit(UserAnnoncesSuccessState(Future.value(listJobs)));
-        }
-        else {
-          print('error');
-          emit(UserAnnoncesErrorState('error'));
-        }
-      });
+    Future.delayed(Duration(seconds: 5), () {
+      try {
+        networkService.jobs().then((response) {
+
+          if (response!.statusCode == 200) {
+            var getJobs = jsonDecode(response.body) as List;
+            var listJobs = getJobs.map((i) => Job.fromJason(i)).toList();
+            emit(UserAnnoncesSuccessState(Future.value(listJobs)));
+          }
+          else {
+            print('error');
+            emit(UserAnnoncesErrorState('error'));
+          }
+        });
 
 
-    }on Exception catch(_){
-      emit(UserAnnoncesErrorState('error'));
-    }
+      }on Exception catch(_){
+        emit(UserAnnoncesErrorState('error'));
+      }
+      print('5 seconds have passed.');
+    });
+
   }}

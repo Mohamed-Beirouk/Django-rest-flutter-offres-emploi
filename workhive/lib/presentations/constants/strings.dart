@@ -11,3 +11,7 @@ const String userProfile = '/userProfile';
 const String Settings = '/Settings';
 const String Logout = '/logout';
 const String filepickerapp = '/filepickerapp';
+
+
+
+const BASE_URL = 'http://192.168.41.42:8080';

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:workHive/cubit/AnnonceState.dart';
 import 'package:workHive/cubit/AnonceCubit.dart';
+import 'package:workHive/presentations/components/skeletonAnnonces.dart';
 import 'package:workHive/presentations/constants/strings.dart';
 import '../../../data/models/Job.dart';
 import '../../../data/models/login_model.dart';
@@ -48,12 +49,12 @@ class _UserAnnoncessState extends State<UserAnnonces> {
           }
 
           else if (state is UserAnnoncesErrorState){
-            MyContainer = NetworkError();
+            MyContainer = NetworkError(context);
             test='cbn';
           }
 
           else{
-            MyContainer = NetworkError();
+            MyContainer = NetworkError(context);
             test='cbn';
           }
 
@@ -141,7 +142,7 @@ class _UserAnnoncessState extends State<UserAnnonces> {
                                 builder:(context)=>
                                 MyContainer
                                 ,
-                                fallback: (context)=>  Center(child: CircularProgressIndicator(color:primaryColor))
+                                fallback: (context)=>  Skeleton()
                               ),
 
 

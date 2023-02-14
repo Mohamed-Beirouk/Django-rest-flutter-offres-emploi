@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:workHive/presentations/constants/strings.dart';
+import 'package:workHive/presentations/screens/uploadFile.dart';
 import '../../../data/models/login_model.dart';
 import '../Registre/registre.dart';
 
@@ -20,15 +21,18 @@ class _UserProfileState extends State<UserProfile> {
     LoginModel loginmodel= ModalRoute.of(context)!.settings.arguments as LoginModel;
     return WillPopScope(
         onWillPop: () async {
-      Navigator.pushNamedAndRemoveUntil(context, layoutuser, (route) => false,arguments: RegistreScreen().localStorage.getItem('VendorModel'));
-      return false;
+            return false;
     },
     child: Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
         title: Text('Profile', style: TextStyle(color: Colors.black87),),
-        leading: Icon(Icons.menu, color: Colors.black87,),
+        leading:
+        Icon(
+          Icons.menu,
+          color: Colors.black87,
+        ),
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -41,7 +45,7 @@ class _UserProfileState extends State<UserProfile> {
                 children: [
                   CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage('http://192.168.85.41:8080'+loginmodel.user!.image.toString()),
+                    backgroundImage: NetworkImage(BASE_URL+loginmodel.user!.image.toString()),
                   )
                 ],
               ),
@@ -75,7 +79,9 @@ class _UserProfileState extends State<UserProfile> {
                             ), borderRadius: BorderRadius.circular(50)),
                             disabledColor: Colors.blue,
                             color: Colors.blue,
-                            onPressed: () {  },
+                            onPressed: () {
+                              Navigator.pushNamedAndRemoveUntil(context, filepickerapp, (route) => false,arguments: loginmodel);
+                            },
                             child: Text(loginmodel.user!.email.toString(), style: TextStyle(color: Colors.white),),
                           ),
                         ),

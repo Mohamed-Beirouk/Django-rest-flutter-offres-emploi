@@ -1,10 +1,10 @@
 import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:workHive/presentations/components/default_button.dart';
 import 'package:workHive/presentations/constants/constants.dart';
+import 'package:workHive/presentations/cryptageBeirouk/cryptagefunctions.dart';
 
 import '../../data/dataprovider/network_services.dart';
 
@@ -22,8 +22,9 @@ class _EncryptAndSendFileState extends State<EncryptAndSendFile> {
     });
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
     String? fileName = result!.files.first.path;
-    ;
-    final file = File(fileName!);
+
+    final file = File(Encrypt.encrypt_file_aes(fileName!));
+
 
     setState(() {
       _file = file;
@@ -34,6 +35,7 @@ class _EncryptAndSendFileState extends State<EncryptAndSendFile> {
     if (_file == null) {
       return;
     }
+
 
     networkService.sendFile(_file, 'intitule');
   }

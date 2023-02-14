@@ -100,15 +100,7 @@ class _LoginState extends State<Login> {
 
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.fromLTRB(
-                            getProportionateScreenHeight(20), 10, 10, 0),
-                        child: Image.asset(
-                          'assets/images/workhive.png',
-                          height: 42,
-                          width: 58,
-                        ),
-                      ),
+
                       Center(
                         child: Image.asset(
                           'assets/images/workhive.png',

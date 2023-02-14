@@ -2,13 +2,13 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'package:aes_crypt/aes_crypt.dart';
 import 'package:encrypt/encrypt.dart' as enc;
 import 'package:encrypt/encrypt.dart';
 import 'package:pointycastle/asymmetric/api.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pointycastle/export.dart';
 import 'package:pointycastle/pointycastle.dart';
-import 'package:steel_crypt/steel_crypt.dart';
 
 class Encrypt {
 
@@ -188,4 +188,47 @@ class Encrypt {
   //
   //   print('File encrypted successfully');
   // }
+
+  static String encrypt_file_aes(String path) {
+    AesCrypt crypt = AesCrypt();
+    crypt.setOverwriteMode(AesCryptOwMode.on);
+    crypt.setPassword('my cool password');
+    String encFilepath = '';
+    try {
+      encFilepath = crypt.encryptFileSync(path);
+      print('The encryption has been completed successfully.');
+      print('Encrypted file: $encFilepath');
+    } catch (e) {
+      if (e == AesCryptExceptionType.destFileExists) {
+        print('The encryption has been completed unsuccessfully.');
+        print(e);
+      }
+      else{
+        return 'ERROR';
+      }
+    }
+    return encFilepath;
+  }
+
+  static String decrypt_file_aes(String path) {
+    AesCrypt crypt = AesCrypt();
+    crypt.setOverwriteMode(AesCryptOwMode.on);
+    crypt.setPassword('my cool password');
+    String decFilepath = '';
+    try {
+      decFilepath = crypt.decryptFileSync(path);
+      print('The decryption has been completed successfully.');
+      print('Decrypted file 1: $decFilepath');
+      print('File content: ' + File(decFilepath).path);
+    } catch (e) {
+      if (e == AesCryptExceptionType.destFileExists) {
+        print('The decryption has been completed unsuccessfully.');
+        print(e);
+      }
+      else{
+        return 'ERROR';
+      }
+    }
+    return decFilepath;
+  }
 }
