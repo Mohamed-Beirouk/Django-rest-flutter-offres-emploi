@@ -29,18 +29,12 @@ class Entreprise(models.Model):
         return self.user.username
 
 class Travail(models.Model):
-    entreprise = models.ForeignKey(Entreprise, on_delete=models.CASCADE)
-    date_debut = models.DateField()
-    date_fin = models.DateField()
-    titre = models.CharField(max_length=200)
-    salaire = models.FloatField()
-    image = models.ImageField(upload_to="")
-    description = models.TextField(max_length=400)
-    experience = models.CharField(max_length=100)
-    adresse = models.CharField(max_length=100)
-    skills = models.CharField(max_length=200)
-    date_creation = models.DateField()
-
+    entreprise = models.CharField(max_length=50, default="")
+    titre = models.CharField(max_length=200, default="")
+    adresse = models.CharField(max_length=100, default="")
+    date = models.CharField(max_length=30, default="")
+    image = models.CharField(max_length=300, default="")
+    link = models.CharField(max_length=300, default="")
     def __str__ (self):
         return self.titre
 
@@ -80,8 +74,8 @@ class Notes(models.Model):
         return self.c_emploi
 
 class Langue(models.Model):
-    nom = models.CharField(max_length=100, default="", editable=False)
-    description = models.TextField(max_length=400, default="", editable=False)
+    nom = models.CharField(max_length=100, default="")
+    description = models.TextField(max_length=400, default="")
     
     def __str__ (self):
         return self.nom
