@@ -9,10 +9,11 @@ import 'package:pointycastle/asymmetric/api.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pointycastle/export.dart';
 import 'package:pointycastle/pointycastle.dart';
+import 'package:workHive/data/dataprovider/network_services.dart';
 
 class Encrypt {
 
-
+  NetworkService networkService = new NetworkService();
   static Future<String> decryptAES(String responseData, String responseKey) {
 
     print("key api"+responseKey);
@@ -210,25 +211,31 @@ class Encrypt {
     return encFilepath;
   }
 
-  static String decrypt_file_aes(String path) {
+
+
+  static Future<String> decrypt_file_aes(String path) async {
+    print("path encien "+path);
+    print("path nouveau "+path);
     AesCrypt crypt = AesCrypt();
     crypt.setOverwriteMode(AesCryptOwMode.on);
     crypt.setPassword('my cool password');
     String decFilepath = '';
-    try {
-      decFilepath = crypt.decryptFileSync(path);
-      print('The decryption has been completed successfully.');
-      print('Decrypted file 1: $decFilepath');
-      print('File content: ' + File(decFilepath).path);
-    } catch (e) {
-      if (e == AesCryptExceptionType.destFileExists) {
-        print('The decryption has been completed unsuccessfully.');
-        print(e);
-      }
-      else{
-        return 'ERROR';
-      }
-    }
+    // try {
+
+    decFilepath = crypt.decryptFileSync(path);
+    print('The decryption has been completed successfully.');
+    print('Decrypted file 1: $decFilepath');
+    print('File content: ' + File(decFilepath).path);
+    // } catch (e) {
+    //   if (e == AesCryptExceptionType.destFileExists) {
+    print('The decryption has been completed unsuccessfully.');
+    // print(e);
+    // }
+    // else{
+    //   return 'ERROR';
+    // }
+    // }
     return decFilepath;
+
   }
 }

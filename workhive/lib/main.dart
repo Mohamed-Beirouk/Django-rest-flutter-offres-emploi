@@ -1,9 +1,6 @@
 import 'package:workHive/presentations/screens/Login/login_screen.dart';
-import 'package:workHive/presentations/screens/Registre/registre.dart';
 import 'package:workHive/router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:scoped_model/scoped_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,8 +19,48 @@ class MyApp extends StatelessWidget {
 
           title: "Work Hive",
           onGenerateRoute: router!.generateRoute,
-          home: Login()
+          home: SplashScreen()
 
         );
   }
+}
+
+class SplashScreen extends StatefulWidget {
+  @override
+  _SplashScreenState createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    const delay = const Duration(seconds: 3);
+    Future.delayed(delay, () => onTimerFinished());
+  }
+
+  void onTimerFinished() {
+    Navigator.of(context).pushReplacement(new MaterialPageRoute(
+      builder: (BuildContext context) {
+        return Login();
+      },
+    ));
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Color(0xff53B175),
+      body: Center(
+        child: splashScreenIcon(),
+      ),
+    );
+  }
+}
+
+Widget splashScreenIcon() {
+  return Image.asset(
+    'assets/images/workhive.png',
+    height: 220,
+    width: 220,
+  );
 }

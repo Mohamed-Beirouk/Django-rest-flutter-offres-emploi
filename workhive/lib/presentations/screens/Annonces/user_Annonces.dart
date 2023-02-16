@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:workHive/cubit/AnnonceState.dart';
 import 'package:workHive/cubit/AnonceCubit.dart';
 import 'package:workHive/presentations/components/skeletonAnnonces.dart';
@@ -140,8 +141,7 @@ class _UserAnnoncessState extends State<UserAnnonces> {
                               child: ConditionalBuilder(
                                 condition:state is! UserAnnoncesInitialState,
                                 builder:(context)=>
-                                MyContainer
-                                ,
+                                MyContainer,
                                 fallback: (context)=>  Skeleton()
                               ),
 
@@ -158,6 +158,7 @@ class _UserAnnoncessState extends State<UserAnnonces> {
             ),
 
           ));
+
         },
       ),
     );
@@ -214,117 +215,128 @@ class _UserAnnoncessState extends State<UserAnnonces> {
       ));
   }
 
-
   jobComponent({required Job job}) {
-    return Container(
-      padding: EdgeInsets.all(10),
-      margin: EdgeInsets.only(bottom: 15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.2),
-              spreadRadius: 0,
-              blurRadius: 2,
-              offset: Offset(0, 1),
-            ),
-          ]
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                    children: [
-                      Container(
-                          width: 60,
-                          height: 60,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(job.image.toString()),
-                          )
-                      ),
-                      SizedBox(width: 10),
-                      Flexible(
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(job.titre.toString(), style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
-                              SizedBox(height: 5,),
-                              Text(job.date.toString(), style: TextStyle(color: Colors.grey[500])),
-                            ]
-                        ),
-                      )
-                    ]
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  // setState(() {
-                  //   job.isMyFav = !job.isMyFav;
-                  // });
-                },
-                child: AnimatedContainer(
-                    height: 35,
-                    padding: EdgeInsets.all(5),
-                    duration: Duration(milliseconds: 300),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.red.shade100 )
-                    ),
-                    child: Center(
-                        child: Icon(Icons.favorite_outline, color: Colors.grey.shade600,)
-                    )
-                ),
-              )
-            ],
-          ),
-          SizedBox(height: 20,),
-          Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.grey.shade200
-                        ),
-                        child: Text(
-                          job.adresse.toString(),
-                          style: TextStyle(
-                              color: Colors.black
-                          ),
+    return GestureDetector(
+      onTap: () async {
+        await launchUrl(Uri.parse(job.link.toString()));
+        // if (await canLaunchUrl(Uri.parse(url))){
+        //     await launchUrl(Uri.parse(url));
+        // }
+        // else{
+        //   print("Could not launch $url");
+        // }
 
+      },
+      child: Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.only(bottom: 15),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                spreadRadius: 0,
+                blurRadius: 2,
+                offset: Offset(0, 1),
+              ),
+            ]
+        ),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Row(
+                      children: [
+                        Container(
+                            width: 60,
+                            height: 60,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(job.image.toString()),
+                            )
                         ),
-                      ),
-                    ),
-                    SizedBox(width: 15,),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(12),
-                            color: Colors.grey.shade200
-                        ),
-                        child: Text("Entreprise : "+job.entreprise.toString(), style: TextStyle(color: Colors.black),),
-                      ),
-                    ),
-                  ],
+                        SizedBox(width: 10),
+                        Flexible(
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(job.titre.toString(), style: TextStyle(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w500)),
+                                SizedBox(height: 5,),
+                                Text(job.date.toString(), style: TextStyle(color: Colors.grey[500])),
+                              ]
+                          ),
+                        )
+                      ]
+                  ),
                 ),
+                GestureDetector(
+                  onTap: () {
+                    // setState(() {
+                    //   job.isMyFav = !job.isMyFav;
+                    // });
+                  },
+                  child: AnimatedContainer(
+                      height: 35,
+                      padding: EdgeInsets.all(5),
+                      duration: Duration(milliseconds: 300),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.red.shade100 )
+                      ),
+                      child: Center(
+                          child: Icon(Icons.favorite_outline, color: Colors.grey.shade600,)
+                      )
+                  ),
+                )
               ],
             ),
-          )
-        ],
+            SizedBox(height: 20,),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.grey.shade200
+                          ),
+                          child: Text(
+                            job.adresse.toString(),
+                            style: TextStyle(
+                                color: Colors.black
+                            ),
+
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 15,),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.grey.shade200
+                          ),
+                          child: Text("Entreprise : "+job.entreprise.toString(), style: TextStyle(color: Colors.black),),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -60,7 +60,12 @@ dependencies:
   get: 4.6.5
   flutter_screenutil: 5.5.4
   aes_crypt: ^0.1.1
-
+  flutter_combo_box: ^0.0.2+5
+  open_filex: ^4.3.2
+  file_cryptor:
+  path_provider: ^2.0.12
+  aes_crypt_null_safe: ^2.0.2
+  path: ^1.8.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

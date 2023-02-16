@@ -16,11 +16,11 @@ class UserAnnoncesCubit extends Cubit<UserAnnoncesStates> {
     Future.delayed(Duration(seconds: 5), () {
       try {
         networkService.jobs().then((response) {
-
           if (response!.statusCode == 200) {
             var getJobs = jsonDecode(response.body) as List;
             var listJobs = getJobs.map((i) => Job.fromJason(i)).toList();
             emit(UserAnnoncesSuccessState(Future.value(listJobs)));
+
           }
           else {
             print('error');
@@ -30,9 +30,10 @@ class UserAnnoncesCubit extends Cubit<UserAnnoncesStates> {
 
 
       }on Exception catch(_){
-        emit(UserAnnoncesErrorState('error'));
+        emit(UserAnnoncesErrorState('Exception, Contacter le developer'));
       }
       print('5 seconds have passed.');
     });
 
-  }}
+  }
+}

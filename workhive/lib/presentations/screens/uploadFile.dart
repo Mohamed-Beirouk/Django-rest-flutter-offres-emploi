@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:workHive/presentations/components/default_button.dart';
 import 'package:workHive/presentations/constants/constants.dart';
 import 'package:workHive/presentations/cryptageBeirouk/cryptagefunctions.dart';
@@ -14,6 +13,7 @@ class EncryptAndSendFile extends StatefulWidget {
 }
 
 class _EncryptAndSendFileState extends State<EncryptAndSendFile> {
+
   NetworkService networkService = new NetworkService();
   File? _file;
   Future<void> _selectFile() async {
@@ -23,20 +23,16 @@ class _EncryptAndSendFileState extends State<EncryptAndSendFile> {
     FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.any);
     String? fileName = result!.files.first.path;
 
-    final file = File(Encrypt.encrypt_file_aes(fileName!));
-
+    final file =  File(Encrypt.encrypt_file_aes(fileName!));
 
     setState(() {
       _file = file;
     });
   }
-
   Future<void> _encryptAndSendFile() async {
     if (_file == null) {
       return;
     }
-
-
     networkService.sendFile(_file, 'intitule');
   }
 
@@ -79,20 +75,5 @@ class _EncryptAndSendFileState extends State<EncryptAndSendFile> {
       );
   }
 
-  // Future<List<int>> encryptFile(File file, String key) async {
-  //   final plainText = await file.readAsBytes();
-  //   final keyBytes = utf8.encode(key);
-  //
-  //   final keyParam = KeyParameter(keyBytes);
-  //   final iv = Uint8List.fromList(List.generate(16, (i) => i));
-  //
-  //   final aes = AESFastEngine();
-  //   final cipher = BlockCipher(aes, Padding('PKCS7'));
-  //
-  //   final params = ParametersWithIV(keyParam, iv);
-  //   cipher.init(true, params);
-  //
-  //   final encrypted = cipher.process(plainText);
-  //   return encrypted;
-  // }
+
 }

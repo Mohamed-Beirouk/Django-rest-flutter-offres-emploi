@@ -9,20 +9,22 @@ import '../../data/models/login_model.dart';
 
 
 class LayoutUser extends StatelessWidget {
-
-  const LayoutUser({Key? key}) : super(key: key);
-
+  LayoutUser({this.screen});
+  final int? screen;
   @override
   Widget build(BuildContext context) {
     LoginModel loginmodel= ModalRoute.of(context)!.settings.arguments as LoginModel;
+
     return BlocProvider(
       create: (BuildContext context) =>FastCubit(),
       child: BlocConsumer<FastCubit,FastStates>(
         listener: (context,state){},
         builder: (context,state){
           var cubit = FastCubit.get(context);
+
           return Scaffold(
-            body: cubit.bottomScreen[cubit.currentIndex],
+
+            body: cubit.bottomScreen[ cubit.currentIndex],
             bottomNavigationBar: BottomNavigationBar(
               onTap: (index)
               {

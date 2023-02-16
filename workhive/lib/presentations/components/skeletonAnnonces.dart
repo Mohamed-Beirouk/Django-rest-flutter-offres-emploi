@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
 class Skeleton extends StatefulWidget {
+
   Skeleton({this.heidht, this.item});
 
   final double? heidht;
-
   final int? item;
   @override
   _SkeletonState createState() => _SkeletonState();
