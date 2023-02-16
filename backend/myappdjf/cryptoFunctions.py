@@ -19,7 +19,7 @@ def OnlyOneTime(str):
 
 OnlyOneTime("yalla")
 
-
+    
 def encryptRSA(message):
     with open('public_key_django.pem', 'rb') as f:
         public_key_pem = f.read()

@@ -76,12 +76,10 @@ class Notes(models.Model):
 class Langue(models.Model):
     nom = models.CharField(max_length=100, default="")
     description = models.TextField(max_length=400, default="")
-    
     def __str__ (self):
         return self.nom
 class LangueMaitrise(models.Model):
     c_emploi = models.ForeignKey(C_emploi, on_delete=models.CASCADE, related_name="chercheur")
     langue = models.ForeignKey(Langue, default="",on_delete=models.CASCADE)
-    
     def __str__ (self):
         return self.langue.nom +" "+self.c_emploi.user.first_name
