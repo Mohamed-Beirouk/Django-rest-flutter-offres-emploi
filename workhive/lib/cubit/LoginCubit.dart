@@ -27,6 +27,7 @@ class LoginCubit extends Cubit<LoginStates>
 
       if(value?.statusCode==200){
         final prefs = await SharedPreferences.getInstance();
+
         String key = jsonDecode(value!.body.toString())['key'];
         String encryptedData = jsonDecode(value.body.toString())['data'];
         Encrypt.decryptAES(encryptedData, key).then((datump){

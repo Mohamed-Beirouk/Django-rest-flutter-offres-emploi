@@ -9,6 +9,8 @@ urlpatterns = [
 
     path('login/', views.Mytoken.as_view(), name='login to us'), 
     path("jobs/", views.Les_annonces_emploi.as_view(), name="les_annonces_emploi"),
+    # recommended
+    path("rec/", views.recommended.as_view(), name="recommended"),
     
     path("updateProfile/", views.updateProfile, name="page_home_chercheur_emploi"),
     

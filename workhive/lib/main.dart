@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    const delay = const Duration(seconds: 3);
+    const delay = const Duration(seconds: 4);
     Future.delayed(delay, () => onTimerFinished());
   }
 
@@ -49,7 +49,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff53B175),
+      backgroundColor: Color(0xffffffff),
       body: Center(
         child: splashScreenIcon(),
       ),

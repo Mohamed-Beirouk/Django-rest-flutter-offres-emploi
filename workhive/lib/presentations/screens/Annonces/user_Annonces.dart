@@ -1,9 +1,7 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:workHive/cubit/AnnonceState.dart';
 import 'package:workHive/cubit/AnonceCubit.dart';
@@ -15,7 +13,6 @@ import '../../../size_config.dart';
 import '../../components/FadeAnimation.dart';
 import '../../components/NetworkError.dart';
 import '../../constants/constants.dart';
-import '../Login/login_screen.dart';
 import '../Registre/registre.dart';
 
 class UserAnnonces extends StatefulWidget {
@@ -309,25 +306,30 @@ class _UserAnnoncessState extends State<UserAnnonces> {
                               borderRadius: BorderRadius.circular(12),
                               color: Colors.grey.shade200
                           ),
-                          child: Text(
-                            job.adresse.toString(),
-                            style: TextStyle(
-                                color: Colors.black
-                            ),
+                          child: Expanded(
+                            child: Text(
+                              
+                              job.adresse.toString(),
+                              style: TextStyle(
+                                  color: Colors.black
+                              ),
 
+                            ),
                           ),
                         ),
                       ),
                       SizedBox(width: 15,),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              color: Colors.grey.shade200
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 8, horizontal: 15),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.grey.shade200
+                            ),
+                            child: Text("Entreprise : "+job.entreprise.toString(), style: TextStyle(color: Colors.black),),
                           ),
-                          child: Text("Entreprise : "+job.entreprise.toString(), style: TextStyle(color: Colors.black),),
                         ),
                       ),
                     ],

@@ -80,6 +80,10 @@ class Mytoken(TokenObtainPairView):
                 "lang":lang,
                 "recomended":seri.data
             }
+        data=  {"token":str(refresh.access_token),
+                "user":serializer.data,
+                "lang":lang
+                }
 
 
         encrypted_data_usingAes=encryptAES(json.dumps(data),PublicKEYAES) 
@@ -218,9 +222,11 @@ class Les_annonces_emploi(APIView):
     def post(self, request):
         key = request.data['motcle']
         localite = request.data['pays']
+        print(key+" :: "+localite)
         browser=webdriver.Chrome("chromedriver.exe")
 
         browser.get("https://www.linkedin.com/jobs/search?keywords="+key+"&location="+localite+"&position=1&pageNum=0")
+        print(browser.current_url)
         jobs_titres=browser.find_elements_by_class_name("base-search-card__title")
 
         tt=[] 
@@ -286,6 +292,7 @@ class Les_annonces_emploi(APIView):
             listjobs,
             status=status.HTTP_200_OK
         )
+    
     def get(self, request): 
         data= request.headers['Authorization']
         token=str.replace(str(data),'JWT ', '')
@@ -320,6 +327,62 @@ class Les_annonces_emploi(APIView):
                 seri.data,
             status=status.HTTP_200_OK
         )
+
+
+
+class recommended(APIView):
+    def get(self, request): 
+        data= request.headers['Authorization']
+        token=str.replace(str(data),'JWT ', '')
+        if not token:
+            return Response(
+                {
+                    'message':'Connexion majatni jaye',
+                },
+                status=status.HTTP_200_OK
+            )
+        try:
+            payload=jwt.decode(token, SECRET_KEY,algorithms=["HS256"])
+            print(payload)
+        except jwt.ExpiredSignatureError:
+            return Response(
+                {
+                    'message':'ExpiredSignatureError',
+                },
+                status=status.HTTP_200_OK
+            )
+
+        user=User.objects.filter(id=payload['user_id']).first()
+        c= C_emploi.objects.filter(user=user).first()
+        languesm = LangueMaitrise.objects.filter(c_emploi=c)
+        print(languesm)
+        lm = []
+        for i in languesm:
+            lm.append(i.langue.nom)
+            print(i.langue.nom)
+        try:
+            q_list = [Q(titre__icontains=string) for string in lm]
+            query = q_list.pop()
+            for q in q_list:
+                query |= q
+            travails = Travail.objects.filter(query)
+
+            random_order = travails.order_by(Random())[:7]
+        except:
+            travail = Travail.objects.all()[:7]
+            random_order = travail.order_by(Random())
+            seri = TravailSerializer(random_order, many=True)
+            return Response(
+                    seri.data,
+                status=status.HTTP_200_OK
+            )
+        
+        seri = TravailSerializer(random_order, many=True)
+        return Response(
+                seri.data,
+            status=status.HTTP_200_OK
+        )
+
 
 @api_view(['POST'])
 def inscription_chercheur_emploi(request):

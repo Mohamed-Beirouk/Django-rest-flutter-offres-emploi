@@ -18,7 +18,7 @@ class NetworkService {
   Future<Response?> login(String phone, String password) async {
     try {
       return await post(
-          Uri.parse(BASE_URL+'/login/'),
+          Uri.parse('http://35.181.110.2/login/'),
           body: {
             'username' : phone,
             'password' : password
@@ -62,6 +62,19 @@ class NetworkService {
           .get(Uri.parse(BASE_URL+'/jobs/'),
           headers:  {"Accept-Charset": "utf-8", "Authorization": 'JWT '+token_u!});
 
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<Response?> recommended() async {
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token_u = prefs.getString('token');
+      return await http
+          .get(Uri.parse(BASE_URL+'/rec/'),
+          headers:  {"Accept-Charset": "utf-8", "Authorization": 'JWT '+token_u!});
     } catch (e) {
       return null;
     }
